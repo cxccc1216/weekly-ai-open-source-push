@@ -75,7 +75,7 @@ def parse_trending(html: str) -> list:
         if not name_m:
             continue
         full_name = name_m.group(1).strip("/")
-        desc_m = re.search(r"<p[^>]*>(.*?)</p>", b, re.S)
+        desc_m = re.search(r'<p class="col-9[^"]*"[^>]*>(.*?)</p>', b, re.S)
         desc = clean(re.sub(r"<[^>]+>", "", desc_m.group(1))) if desc_m else ""
         lang_m = re.search(r'itemprop="programmingLanguage">([^<]+)<', b)
         lang = lang_m.group(1).strip() if lang_m else ""
