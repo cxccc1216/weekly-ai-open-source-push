@@ -22,6 +22,33 @@ UA = {
 SENDKEY = os.environ.get("SERVERCHAN_SENDKEY", "")
 REPORT_FILE = "weekly-report.md"
 
+# 翻译缓存（避免同一项目重复请求）
+_TRANSLATE_CACHE = {}
+
+
+def translate_zh(text: str) -> str:
+    """调用 Google Translate 免费接口把英文描述翻译为中文；失败时回退英文原文"""
+    if not text:
+        return ""
+    if text in _TRANSLATE_CACHE:
+        return _TRANSLATE_CACHE[text]
+    try:
+        q = urllib.parse.quote(text[:500])
+        url = f"https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q={q}"
+        req = urllib.request.Request(url, headers={"User-Agent": UA["User-Agent"]})
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read().decode("utf-8", "ignore"))
+        parts = []
+        for seg in data[0]:
+            if seg and seg[0]:
+                parts.append(seg[0])
+        result = "".join(parts).strip() or text
+        _TRANSLATE_CACHE[text] = result
+        return result
+    except Exception:
+        _TRANSLATE_CACHE[text] = text
+        return text
+
 # AI 项目关键词（匹配仓库名/描述）
 AI_PATTERN = re.compile(
     r"\b(ai|llm|gpt|agent|claude|openai|anthropic|diffusion|chat|assistant|copilot|neural|rag|whisper|llama|qwen|deepseek|gemini|model|intelligence|pipeline|image|video|audio|speech|vision|translate|ocr)\b",
@@ -86,14 +113,16 @@ def build_markdown(ai_items: list, top_items: list, week_range: str) -> str:
         url = f"https://github.com/{it['name']}"
         star = f"⭐本周 +{it['week']:,}" if it["week"] else f"⭐{it['stars']:,}"
         lines.append(f"{i}. **[{it['name']}]({url})** {star}")
-        if it["desc"]:
-            lines.append(f"   {it['desc'][:80]}")
+        desc_zh = translate_zh(it["desc"]) if it["desc"] else ""
+        if desc_zh:
+            lines.append(f"   {desc_zh[:90]}")
         lines.append("")
     if top_items:
         lines += ["---", "", "## 📈 本周总榜 Top 5", ""]
         for i, it in enumerate(top_items[:5], 1):
             url = f"https://github.com/{it['name']}"
-            lines.append(f"{i}. [{it['name']}]({url}) ⭐{it['stars']:,} — {it['desc'][:60]}")
+            desc_zh = translate_zh(it["desc"]) if it["desc"] else ""
+            lines.append(f"{i}. [{it['name']}]({url}) ⭐{it['stars']:,} — {desc_zh[:60]}")
         lines.append("")
     lines.append("> 完整榜单见 GitHub Trending：https://github.com/trending?since=weekly")
     return "\n".join(lines)
