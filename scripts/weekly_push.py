@@ -27,25 +27,30 @@ _TRANSLATE_CACHE = {}
 
 
 def translate_zh(text: str) -> str:
-    """调用 Google Translate 免费接口把英文描述翻译为中文；失败时回退英文原文"""
+    """调用 MyMemory 免费接口把英文描述翻译为中文；失败时回退英文原文
+
+    MyMemory 是免费公开翻译服务（api.mymemory.translated.net），无 key、不限 datacenter IP，
+    比 Google Translate gtx 适合 GitHub Actions 云端使用。"""
     if not text:
         return ""
     if text in _TRANSLATE_CACHE:
         return _TRANSLATE_CACHE[text]
     try:
         q = urllib.parse.quote(text[:500])
-        url = f"https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q={q}"
+        url = f"https://api.mymemory.translated.net/get?q={q}&langpair=en|zh-CN&de=workbuddy@users.noreply.github.com"
         req = urllib.request.Request(url, headers={"User-Agent": UA["User-Agent"]})
         with urllib.request.urlopen(req, timeout=15) as resp:
             data = json.loads(resp.read().decode("utf-8", "ignore"))
-        parts = []
-        for seg in data[0]:
-            if seg and seg[0]:
-                parts.append(seg[0])
-        result = "".join(parts).strip() or text
-        _TRANSLATE_CACHE[text] = result
-        return result
-    except Exception:
+        translated = data.get("responseData", {}).get("translatedText", "").strip()
+        status = data.get("responseStatus")
+        if status == 200 and translated and translated.lower() != text.lower():
+            _TRANSLATE_CACHE[text] = translated
+            return translated
+        print(f"[WARN] 翻译未返回有效结果: status={status} text={translated[:60]!r}")
+        _TRANSLATE_CACHE[text] = text
+        return text
+    except Exception as e:
+        print(f"[WARN] 翻译失败 ({type(e).__name__}: {e})，回退原文")
         _TRANSLATE_CACHE[text] = text
         return text
 
