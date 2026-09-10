@@ -117,16 +117,17 @@ def is_ai(item: dict) -> bool:
     return bool(AI_PATTERN.search(text))
 
 
-def build_markdown(ai_items: list, top_items: list, week_range: str, blob_url: str, raw_url: str) -> str:
+def build_markdown(ai_items: list, top_items: list, week_range: str, blob_url: str, index_url: str) -> str:
     lines = [
         f"# 🤖 本周 AI 开源项目精选（{week_range}）",
         "",
         "## 📄 永久存档",
         "",
-        f"- **在线阅读（含下载按钮）**：{blob_url}",
-        f"- **纯文本直链（手机可直接保存）**：{raw_url}",
+        f"- **本期报告（可下载保存）**：{blob_url}",
+        f"- **历史周报总目录**：{index_url}",
         "",
-        "> 方糖推送正文只保留 1 天（会员 3–7 天），之后请从上面链接查看，永久有效。",
+        "> 方糖推送正文仅保留 1 天（会员 3–7 天），之后请从上面链接查看，永久有效。",
+        "> 手机打开后点右上角「Download」即可保存到本地。",
         "",
         "---",
         "",
@@ -165,9 +166,8 @@ def update_index(week_date: str, report_filename: str, ai_items: list) -> None:
     os.makedirs(REPORT_DIR, exist_ok=True)
 
     blob_url = f"https://github.com/{REPO_SLUG}/blob/{BRANCH}/{REPORT_DIR}/{report_filename}"
-    raw_url = f"https://raw.githubusercontent.com/{REPO_SLUG}/{BRANCH}/{REPORT_DIR}/{report_filename}"
     names = ", ".join(it["name"] for it in ai_items[:12])
-    row = f"| {week_date} | [查看]({blob_url}) · [下载]({raw_url}) | {len(ai_items)} | {names} |"
+    row = f"| {week_date} | [查看/下载]({blob_url}) | {len(ai_items)} | {names} |"
 
     rows = []
     if os.path.exists(INDEX_FILE):
@@ -231,7 +231,7 @@ def main():
     report_rel = f"{REPORT_DIR}/{report_filename}"
     report_path = os.path.join(REPORT_DIR, report_filename)
     blob_url = f"https://github.com/{REPO_SLUG}/blob/{BRANCH}/{report_rel}"
-    raw_url = f"https://raw.githubusercontent.com/{REPO_SLUG}/{BRANCH}/{report_rel}"
+    index_url = f"https://github.com/{REPO_SLUG}/blob/{BRANCH}/{REPORT_DIR}/INDEX.md"
 
     try:
         html = fetch("https://github.com/trending?since=weekly")
@@ -246,7 +246,7 @@ def main():
 
     ai_items = [it for it in items if is_ai(it)]
     top_items = sorted(items, key=lambda x: x["stars"], reverse=True)
-    md = build_markdown(ai_items, top_items, week_range, blob_url, raw_url)
+    md = build_markdown(ai_items, top_items, week_range, blob_url, index_url)
 
     write_report(report_path, md)
     print(f"[OK] 报告已生成: {report_path}（AI 相关 {len(ai_items)} 条 / 总 {len(items)} 条）")

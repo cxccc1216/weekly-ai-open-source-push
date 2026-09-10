@@ -25,10 +25,15 @@ GitHub Actions（云端免费定时器）
 
 所以改成：**正文存进本仓库（永久），推送只带链接**。
 
-- 在线阅读（带 Download 按钮）：`reports/weekly-ai-YYYY-MM-DD.md`
-- 纯文本直链（手机可直接保存）：`raw.githubusercontent.com/...`
+- 本期报告（含 Download 按钮）：`github.com/.../blob/main/reports/weekly-ai-YYYY-MM-DD.md`
+- 历史总目录：`github.com/.../blob/main/reports/INDEX.md`
 
-两个链接都是永久地址，方糖过期也不影响。
+链接都是永久地址，方糖过期也不影响；手机打开后点右上角「Download」即可保存。
+
+> ⚠️ 实测（2026-09-10，中国大陆网络）：
+> `github.com` 直连可正常打开（HTTP 200）；
+> `raw.githubusercontent.com` **直连被墙**，`cdn.jsdelivr.net` 也只会 302 回源到 raw，都不可用。
+> 所以推送里只用 `github.com` 的 blob 链接，不放 raw 直链。
 
 ## 文件结构
 
