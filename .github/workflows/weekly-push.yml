@@ -7,7 +7,7 @@ on:
   workflow_dispatch: {} # 支持手动触发测试
 
 permissions:
-  contents: read
+  contents: write # 需要回写 reports/ 目录（永久存档）
 
 jobs:
   push:
@@ -26,9 +26,23 @@ jobs:
           SERVERCHAN_SENDKEY: ${{ secrets.SERVERCHAN_SENDKEY }}
         run: python scripts/weekly_push.py
 
+      - name: Commit report to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/
+          if git diff --staged --quiet; then
+            echo "无变更，跳过提交"
+          else
+            week=$(TZ=Asia/Shanghai date +%Y-%m-%d)
+            git commit -m "周报存档 ${week}"
+            git push
+          fi
+
       - name: Upload report (debug)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: weekly-report
-          path: weekly-report.md
+          path: reports/
+          retention-days: 30

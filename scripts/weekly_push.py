@@ -2,8 +2,14 @@
 # -*- coding: utf-8 -*-
 """
 每周 AI 开源项目精选推送（GitHub Actions 定时运行）
+
 数据源：GitHub Trending (weekly)
 推送：Server酱（微信「方糖」服务号）
+存档：报告写入 reports/ 目录并提交回仓库，推送里只带永久链接
+
+为什么这么改：方糖推送内容免费版只保留 1 天、会员 3–7 天，
+过期后正文就查不到了。所以正文不放在方糖，改成存进本仓库，
+推送只给「在线阅读」和「下载」两个永久链接。
 """
 
 import os
@@ -20,7 +26,13 @@ UA = {
 }
 
 SENDKEY = os.environ.get("SERVERCHAN_SENDKEY", "")
-REPORT_FILE = "weekly-report.md"
+
+# 仓库信息（Actions 里由 GITHUB_REPOSITORY / GITHUB_REF_NAME 自动注入，本地跑用默认值）
+REPO_SLUG = (os.environ.get("GITHUB_REPOSITORY") or "").strip() or "cxccc1216/weekly-ai-open-source-push"
+BRANCH = (os.environ.get("GITHUB_REF_NAME") or "").strip() or "main"
+
+REPORT_DIR = "reports"
+INDEX_FILE = os.path.join(REPORT_DIR, "INDEX.md")
 
 # 翻译缓存（避免同一项目重复请求）
 _TRANSLATE_CACHE = {}
@@ -105,9 +117,18 @@ def is_ai(item: dict) -> bool:
     return bool(AI_PATTERN.search(text))
 
 
-def build_markdown(ai_items: list, top_items: list, week_range: str) -> str:
+def build_markdown(ai_items: list, top_items: list, week_range: str, blob_url: str, raw_url: str) -> str:
     lines = [
         f"# 🤖 本周 AI 开源项目精选（{week_range}）",
+        "",
+        "## 📄 永久存档",
+        "",
+        f"- **在线阅读（含下载按钮）**：{blob_url}",
+        f"- **纯文本直链（手机可直接保存）**：{raw_url}",
+        "",
+        "> 方糖推送正文只保留 1 天（会员 3–7 天），之后请从上面链接查看，永久有效。",
+        "",
+        "---",
         "",
         "数据来源：GitHub Trending（每周榜）",
         "",
@@ -133,6 +154,53 @@ def build_markdown(ai_items: list, top_items: list, week_range: str) -> str:
     return "\n".join(lines)
 
 
+def write_report(report_path: str, content: str) -> None:
+    os.makedirs(os.path.dirname(report_path) or ".", exist_ok=True)
+    with open(report_path, "w", encoding="utf-8") as f:
+        f.write(content)
+
+
+def update_index(week_date: str, report_filename: str, ai_items: list) -> None:
+    """维护 reports/INDEX.md 总目录：最新一周在最上面，重复日期先覆盖"""
+    os.makedirs(REPORT_DIR, exist_ok=True)
+
+    blob_url = f"https://github.com/{REPO_SLUG}/blob/{BRANCH}/{REPORT_DIR}/{report_filename}"
+    raw_url = f"https://raw.githubusercontent.com/{REPO_SLUG}/{BRANCH}/{REPORT_DIR}/{report_filename}"
+    names = ", ".join(it["name"] for it in ai_items[:12])
+    row = f"| {week_date} | [查看]({blob_url}) · [下载]({raw_url}) | {len(ai_items)} | {names} |"
+
+    rows = []
+    if os.path.exists(INDEX_FILE):
+        with open(INDEX_FILE, encoding="utf-8") as f:
+            for line in f:
+                line = line.rstrip("\n")
+                if not line.startswith("|"):
+                    continue
+                if line.startswith("| 周次") or set(line) <= set("|-: "):
+                    continue
+                if line.startswith(f"| {week_date} "):
+                    continue
+                rows.append(line)
+
+    rows.insert(0, row)
+
+    lines = [
+        "# 📚 AI 开源周报总目录",
+        "",
+        f"共 {len(rows)} 期 ｜ 仓库：https://github.com/{REPO_SLUG}",
+        "",
+        "| 周次 | 报告 | AI 项目数 | 本周收录项目 |",
+        "|---|---|---|---|",
+    ] + rows + [
+        "",
+        "> 每期报告永久保存在本目录，方糖推送过期后仍可从这里查阅与下载。",
+        "",
+    ]
+    with open(INDEX_FILE, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+    print(f"[OK] 总目录已更新: {INDEX_FILE}（共 {len(rows)} 期）")
+
+
 def push_wechat(title: str, desp: str) -> bool:
     if not SENDKEY:
         print("[SKIP] 未配置 SERVERCHAN_SENDKEY，跳过推送（仅生成报告）")
@@ -153,9 +221,17 @@ def push_wechat(title: str, desp: str) -> bool:
 def main():
     cn_tz = timezone(timedelta(hours=8))
     now = datetime.now(cn_tz)
+    week_date = now.strftime("%Y-%m-%d")
     start = (now - timedelta(days=6)).strftime("%m/%d")
     end = now.strftime("%m/%d")
     week_range = f"{start}-{end}"
+
+    report_filename = f"weekly-ai-{week_date}.md"
+    # URL 里必须用正斜杠（Windows 的 os.path.join 会给出反斜杠，链接会失效）
+    report_rel = f"{REPORT_DIR}/{report_filename}"
+    report_path = os.path.join(REPORT_DIR, report_filename)
+    blob_url = f"https://github.com/{REPO_SLUG}/blob/{BRANCH}/{report_rel}"
+    raw_url = f"https://raw.githubusercontent.com/{REPO_SLUG}/{BRANCH}/{report_rel}"
 
     try:
         html = fetch("https://github.com/trending?since=weekly")
@@ -170,11 +246,12 @@ def main():
 
     ai_items = [it for it in items if is_ai(it)]
     top_items = sorted(items, key=lambda x: x["stars"], reverse=True)
-    md = build_markdown(ai_items, top_items, week_range)
+    md = build_markdown(ai_items, top_items, week_range, blob_url, raw_url)
 
-    with open(REPORT_FILE, "w", encoding="utf-8") as f:
-        f.write(md)
-    print(f"[OK] 报告已生成: {REPORT_FILE}（AI 相关 {len(ai_items)} 条 / 总 {len(items)} 条）")
+    write_report(report_path, md)
+    print(f"[OK] 报告已生成: {report_path}（AI 相关 {len(ai_items)} 条 / 总 {len(items)} 条）")
+
+    update_index(week_date, report_filename, ai_items)
 
     title = f"🤖 AI开源周报 {week_range}"
     push_wechat(title, md)
