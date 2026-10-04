@@ -1,9 +1,10 @@
 # 📚 AI 开源周报总目录
 
-共 5 期 ｜ 仓库：https://github.com/cxccc1216/weekly-ai-open-source-push
+共 6 期 ｜ 仓库：https://github.com/cxccc1216/weekly-ai-open-source-push
 
 | 周次 | 报告 | AI 项目数 | 本周收录项目 |
 |---|---|---|---|
+| 2026-10-05 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-10-05.md) | 13 | vectorize-io/hindsight, pbakaus/impeccable, debpalash/VoiceStudio, heygen-com/hyperframes, rohitg00/ai-engineering-from-scratch, Panniantong/Agent-Reach, alirezarezvani/claude-skills, TencentCloud/Octop, tile-ai/tilelang, harry0703/MoneyPrinterTurbo, NVIDIA/OpenShell, pablostanley/yoinks |
 | 2026-09-28 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-09-28.md) | 13 | vectorize-io/hindsight, cloudflare/security-audit-skill, Tencent/WeKnora, davila7/claude-code-templates, stablyai/orca, HKUDS/CLI-Anything, pytorch/pytorch, anthropics/claude-code, affaan-m/ECC, rohitg00/ai-engineering-from-scratch, alibaba/open-code-review, TencentCloud/Octop |
 | 2026-09-21 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-09-21.md) | 19 | alibaba/open-code-review, anthropics/claude-code, affaan-m/ECC, Tencent/WeKnora, addyosmani/agent-skills, anthropics/knowledge-work-plugins, bilawalsidhu/gods-eye-view, mksglu/context-mode, max-sixty/worktrunk, home-assistant/core, blader/humanizer, stablyai/orca |
 | 2026-09-14 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-09-14.md) | 18 | ayghri/i-have-adhd, affaan-m/ECC, openai/plugins, bilawalsidhu/gods-eye-view, mksglu/context-mode, DietrichGebert/ponytail, tt-a1i/archify, openai/skills, heygen-com/hyperframes, coreyhaines31/marketingskills, cathrynlavery/diagram-design, THU-MAIC/OpenMAIC |
