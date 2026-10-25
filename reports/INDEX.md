@@ -1,9 +1,10 @@
 # 📚 AI 开源周报总目录
 
-共 8 期 ｜ 仓库：https://github.com/cxccc1216/weekly-ai-open-source-push
+共 9 期 ｜ 仓库：https://github.com/cxccc1216/weekly-ai-open-source-push
 
 | 周次 | 报告 | AI 项目数 | 本周收录项目 |
 |---|---|---|---|
+| 2026-10-26 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-10-26.md) | 11 | cloudflare/security-audit-skill, ruvnet/ruflo, anthropics/knowledge-work-plugins, anomalyco/opencode, stablyai/orca, heygen-com/hyperframes, Graphify-Labs/graphify, akitaonrails/ai-memory, Comfy-Org/ComfyUI, anthropics/claude-plugins-official, multica-ai/andrej-karpathy-skills |
 | 2026-10-19 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-10-19.md) | 5 | anthropics/claude-plugins-official, mksglu/context-mode, cathrynlavery/diagram-design, heygen-com/hyperframes, MadsLorentzen/ai-job-search |
 | 2026-10-12 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-10-12.md) | 5 | thedotmack/claude-mem, heygen-com/hyperframes, earthtojake/text-to-cad, mvschwarz/openrig, danyuchn/asd-ste100-skill |
 | 2026-10-05 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-10-05.md) | 13 | vectorize-io/hindsight, pbakaus/impeccable, debpalash/VoiceStudio, heygen-com/hyperframes, rohitg00/ai-engineering-from-scratch, Panniantong/Agent-Reach, alirezarezvani/claude-skills, TencentCloud/Octop, tile-ai/tilelang, harry0703/MoneyPrinterTurbo, NVIDIA/OpenShell, pablostanley/yoinks |
