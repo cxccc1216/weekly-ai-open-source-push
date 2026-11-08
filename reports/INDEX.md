@@ -1,9 +1,10 @@
 # 📚 AI 开源周报总目录
 
-共 10 期 ｜ 仓库：https://github.com/cxccc1216/weekly-ai-open-source-push
+共 11 期 ｜ 仓库：https://github.com/cxccc1216/weekly-ai-open-source-push
 
 | 周次 | 报告 | AI 项目数 | 本周收录项目 |
 |---|---|---|---|
+| 2026-11-09 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-11-09.md) | 10 | NVIDIA/auto-ontology, thedotmack/claude-mem, max-sixty/worktrunk, anthropics/skills, Donchitos/Claude-Code-Game-Studios, Nutlope/hallmark, vercel-labs/agent-browser, jakubkrehel/skills, The-PR-Agent/pr-agent, blader/humanizer |
 | 2026-11-02 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-11-02.md) | 12 | Nutlope/hallmark, pbakaus/impeccable, AgriciDaniel/claude-seo, thedotmack/claude-mem, cloudflare/security-audit-skill, multica-ai/andrej-karpathy-skills, jakubkrehel/skills, TauricResearch/TradingAgents, Leonxlnx/taste-skill, anthropics/skills, affaan-m/ECC, YuJunZhiXue/dsh-purge |
 | 2026-10-26 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-10-26.md) | 11 | cloudflare/security-audit-skill, ruvnet/ruflo, anthropics/knowledge-work-plugins, anomalyco/opencode, stablyai/orca, heygen-com/hyperframes, Graphify-Labs/graphify, akitaonrails/ai-memory, Comfy-Org/ComfyUI, anthropics/claude-plugins-official, multica-ai/andrej-karpathy-skills |
 | 2026-10-19 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-10-19.md) | 5 | anthropics/claude-plugins-official, mksglu/context-mode, cathrynlavery/diagram-design, heygen-com/hyperframes, MadsLorentzen/ai-job-search |
