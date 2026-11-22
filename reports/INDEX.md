@@ -1,9 +1,10 @@
 # 📚 AI 开源周报总目录
 
-共 12 期 ｜ 仓库：https://github.com/cxccc1216/weekly-ai-open-source-push
+共 13 期 ｜ 仓库：https://github.com/cxccc1216/weekly-ai-open-source-push
 
 | 周次 | 报告 | AI 项目数 | 本周收录项目 |
 |---|---|---|---|
+| 2026-11-23 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-11-23.md) | 9 | google-labs-code/stitch-skills, GoogleChrome/modern-web-guidance-src, alibaba/open-code-review, mvanhorn/last30days-skill, tradermonty/claude-trading-skills, ag-ui-protocol/ag-ui, meta/astryx, dream-num/univer, kajisho5/ffmpeg-skill |
 | 2026-11-16 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-11-16.md) | 6 | meta/astryx, anthropics/skills, vercel-labs/agent-browser, ZhuLinsen/daily_stock_analysis, google/elephant-goldfish-model, addyosmani/agent-skills |
 | 2026-11-09 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-11-09.md) | 10 | NVIDIA/auto-ontology, thedotmack/claude-mem, max-sixty/worktrunk, anthropics/skills, Donchitos/Claude-Code-Game-Studios, Nutlope/hallmark, vercel-labs/agent-browser, jakubkrehel/skills, The-PR-Agent/pr-agent, blader/humanizer |
 | 2026-11-02 | [查看/下载](https://github.com/cxccc1216/weekly-ai-open-source-push/blob/main/reports/weekly-ai-2026-11-02.md) | 12 | Nutlope/hallmark, pbakaus/impeccable, AgriciDaniel/claude-seo, thedotmack/claude-mem, cloudflare/security-audit-skill, multica-ai/andrej-karpathy-skills, jakubkrehel/skills, TauricResearch/TradingAgents, Leonxlnx/taste-skill, anthropics/skills, affaan-m/ECC, YuJunZhiXue/dsh-purge |
